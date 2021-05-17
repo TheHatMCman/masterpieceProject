@@ -162,7 +162,7 @@ function gravityOnWorld () {
     thePlayer.ay = 300
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (menuScreen2 == 1) {
+    if (menuScreen == 1) {
         menuSelect += 1
     }
 })
@@ -171,64 +171,6 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, l
     transitionSmooth()
     levelTwo()
 })
-function menuScreen () {
-    menuScreen2 = 1
-    menuSelect = 1
-    optionOne = sprites.create(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . 1 . . . . . . . . 
-        . . . . . . . 1 . . . . . . . . 
-        . . . . . . . 1 . . . . . . . . 
-        . . . . . . . 1 . . . . . . . . 
-        . . . . . . . 1 . . . . . . . . 
-        . . . . . . . 1 . . . . . . . . 
-        . . . . . . . 1 . . . . . . . . 
-        . . . . . . . 1 . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Player)
-    optionTwo = sprites.create(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . 1 1 1 1 . . . . . . . 
-        . . . 1 1 . . . . 1 1 . . . . . 
-        . . . 1 . . . . . . . 1 . . . . 
-        . . . . . . . . . . . . 1 . . . 
-        . . . . . . . . . . . . 1 . . . 
-        . . . . . . . . . . . . 1 . . . 
-        . . . . . . . . . . . 1 . . . . 
-        . . . . . . . . . . 1 . . . . . 
-        . . . . . . . . . . 1 . . . . . 
-        . . . . . . . . . 1 . . . . . . 
-        . . . . . . . . 1 . . . . . . . 
-        . . . . . . 1 1 . . . . . . . . 
-        . . . . . 1 1 . . . . . . . . . 
-        . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
-        `, SpriteKind.Player)
-    optionThree = sprites.create(img`
-        . . . . . . . . . . . . . . . . 
-        . . 1 1 1 1 1 1 . . . . . . . . 
-        . . 1 . . . . . 1 1 . . . . . . 
-        . . . . . . . . . 1 1 . . . . . 
-        . . . . . . . . . . 1 . . . . . 
-        . . . . . . . . . . 1 . . . . . 
-        . . . . . . . . . . 1 . . . . . 
-        . . . . . . . 1 1 1 . . . . . . 
-        . . . . . . . . 1 1 1 . . . . . 
-        . . . . . . . . . . 1 . . . . . 
-        . . . . . . . . . 1 1 . . . . . 
-        . . . . . . . 1 1 . . . . . . . 
-        . . . . 1 1 1 . . . . . . . . . 
-        . . 1 1 1 . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Player)
-}
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile13`, function (sprite, location) {
     thePlayer.vy = 500
     pause(100)
@@ -600,7 +542,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile17`, function (sprite, 
     thePlayer.fy = 50
 })
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (menuScreen2 == 1) {
+    if (menuScreen == 1) {
         menuSelect += -1
     }
 })
@@ -635,6 +577,64 @@ function healthReward () {
     if (info.life() == 1) {
         info.changeScoreBy(0)
     }
+}
+function menuScreen2 () {
+    menuScreen = 1
+    menuSelect = 1
+    optionOne = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . 1 . . . . . . . . 
+        . . . . . . . 1 . . . . . . . . 
+        . . . . . . . 1 . . . . . . . . 
+        . . . . . . . 1 . . . . . . . . 
+        . . . . . . . 1 . . . . . . . . 
+        . . . . . . . 1 . . . . . . . . 
+        . . . . . . . 1 . . . . . . . . 
+        . . . . . . . 1 . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Player)
+    optionTwo = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . 1 1 1 1 . . . . . . . 
+        . . . 1 1 . . . . 1 1 . . . . . 
+        . . . 1 . . . . . . . 1 . . . . 
+        . . . . . . . . . . . . 1 . . . 
+        . . . . . . . . . . . . 1 . . . 
+        . . . . . . . . . . . . 1 . . . 
+        . . . . . . . . . . . 1 . . . . 
+        . . . . . . . . . . 1 . . . . . 
+        . . . . . . . . . . 1 . . . . . 
+        . . . . . . . . . 1 . . . . . . 
+        . . . . . . . . 1 . . . . . . . 
+        . . . . . . 1 1 . . . . . . . . 
+        . . . . . 1 1 . . . . . . . . . 
+        . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+        `, SpriteKind.Player)
+    optionThree = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . 1 1 1 1 1 1 . . . . . . . . 
+        . . 1 . . . . . 1 1 . . . . . . 
+        . . . . . . . . . 1 1 . . . . . 
+        . . . . . . . . . . 1 . . . . . 
+        . . . . . . . . . . 1 . . . . . 
+        . . . . . . . . . . 1 . . . . . 
+        . . . . . . . 1 1 1 . . . . . . 
+        . . . . . . . . 1 1 1 . . . . . 
+        . . . . . . . . . . 1 . . . . . 
+        . . . . . . . . . 1 1 . . . . . 
+        . . . . . . . 1 1 . . . . . . . 
+        . . . . 1 1 1 . . . . . . . . . 
+        . . 1 1 1 . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Player)
 }
 function gameWin () {
     if (levelOneComplete == 1) {
@@ -673,7 +673,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.chestContainer, function (sprite
     }
 })
 function hubWorld () {
-    menuScreen2 = 0
+    menuScreen = 0
     info.setLife(1)
     tiles.setTilemap(tilemap`hubWorld`)
     tiles.placeOnTile(thePlayer, tiles.getTileLocation(2, 13))
@@ -957,15 +957,15 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         pause(500)
     }
 })
-let completionThree: Sprite = null
-let completionTwo: Sprite = null
-let completionOne: Sprite = null
 let optionThree: Sprite = null
 let optionTwo: Sprite = null
 let optionOne: Sprite = null
+let completionThree: Sprite = null
+let completionTwo: Sprite = null
+let completionOne: Sprite = null
 let transitionState = 0
 let menuSelect = 0
-let menuScreen2 = 0
+let menuScreen = 0
 let enemy2: Sprite = null
 let enemy1: Sprite = null
 let enemyTemplate: Sprite = null
@@ -1108,9 +1108,9 @@ scene.setBackgroundImage(img`
     `)
 game.showLongText("Try to reach the escape van at the end of each level!", DialogLayout.Bottom)
 game.showLongText("Stomp on enemies and open chests for poirnts", DialogLayout.Bottom)
-menuScreen()
+menuScreen2()
 game.onUpdate(function () {
-    if (menuScreen2 == 1) {
+    if (menuScreen == 1) {
         if (menuSelect < 1) {
             menuSelect = 1
         }
@@ -1131,11 +1131,14 @@ game.onUpdate(function () {
         	
         }
     }
+    if (menuScreen == 0) {
+        if (thePlayer.isHittingTile(CollisionDirection.Bottom)) {
+            jumpCounter = 0
+        }
+    }
 })
 game.onUpdate(function () {
-    if (thePlayer.isHittingTile(CollisionDirection.Bottom)) {
-        jumpCounter = 0
-    }
+	
 })
 forever(function () {
     gravityOnWorld()
