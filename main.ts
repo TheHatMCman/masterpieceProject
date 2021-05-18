@@ -158,12 +158,69 @@ function levelThree () {
     tiles.placeOnTile(chest, tiles.getTileLocation(17, 18))
     resetFlag()
 }
+function enemySpawn () {
+    enemyTemplate = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . e 2 2 2 2 . . . . . 
+        . . . . . . e 2 2 2 2 . . . . . 
+        . . . . . . e . . . . . . . . . 
+        . . . . . . e . . . . . . . . . 
+        . . . . . . e . . . . . . . . . 
+        . . . . . f f f f f f . . . . . 
+        . . . . f 1 1 1 1 1 1 f . . . . 
+        . . . f f 1 1 1 1 1 1 f f . . . 
+        . . . f f f f f f f f f f . . . 
+        . . . f f f f f f f f f f . . . 
+        . . c c . . . . . . . . c c . . 
+        . . c c . . . . . . . . c c . . 
+        `, SpriteKind.Enemy)
+    enemy1 = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . e 2 2 2 2 . . . . . 
+        . . . . . . e 2 2 2 2 . . . . . 
+        . . . . . . e . . . . . . . . . 
+        . . . . . . e . . . . . . . . . 
+        . . . . . . e . . . . . . . . . 
+        . . . . . f f f f f f . . . . . 
+        . . . . f 1 1 1 1 1 1 f . . . . 
+        . . . f f 1 1 1 1 1 1 f f . . . 
+        . . . f f f f f f f f f f . . . 
+        . . . f f f f f f f f f f . . . 
+        . . c c . . . . . . . . c c . . 
+        . . c c . . . . . . . . c c . . 
+        `, SpriteKind.Enemy)
+    enemy2 = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . e 2 2 2 2 . . . . . 
+        . . . . . . e 2 2 2 2 . . . . . 
+        . . . . . . e . . . . . . . . . 
+        . . . . . . e . . . . . . . . . 
+        . . . . . . e . . . . . . . . . 
+        . . . . . f f f f f f . . . . . 
+        . . . . f 1 1 1 1 1 1 f . . . . 
+        . . . f f 1 1 1 1 1 1 f f . . . 
+        . . . f f f f f f f f f f . . . 
+        . . . f f f f f f f f f f . . . 
+        . . c c . . . . . . . . c c . . 
+        . . c c . . . . . . . . c c . . 
+        `, SpriteKind.Enemy)
+    enemySpawns = 1
+}
 function gravityOnWorld () {
     thePlayer.ay = 300
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     if (menuScreen == 1) {
-        menuSelect += 1
+        menuSelect += -1
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, location) {
@@ -180,6 +237,9 @@ function transitionSmooth () {
     pause(200)
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (menuScreen == 1) {
+        menuConfirm = 1
+    }
     if (jumpCounter == 0) {
         jumpCounter = 1
         thePlayer.vy = -150
@@ -188,26 +248,35 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.endingPoint, function (sprite, otherSprite) {
-    if (levelSelector == 1) {
-        tiles.placeOnTile(enemyTemplate, tiles.getTileLocation(0, 0))
-        tiles.placeOnTile(enemy1, tiles.getTileLocation(0, 0))
-        tiles.placeOnTile(enemy2, tiles.getTileLocation(0, 0))
-        levelOneComplete = 1
-    } else if (levelSelector == 2) {
-        tiles.placeOnTile(enemyTemplate, tiles.getTileLocation(0, 0))
-        tiles.placeOnTile(enemy1, tiles.getTileLocation(0, 0))
-        tiles.placeOnTile(enemy2, tiles.getTileLocation(0, 0))
-        levelTwoComplete = 1
-    } else if (levelSelector == 3) {
-        tiles.placeOnTile(enemyTemplate, tiles.getTileLocation(0, 0))
-        tiles.placeOnTile(enemy1, tiles.getTileLocation(0, 0))
-        tiles.placeOnTile(enemy2, tiles.getTileLocation(0, 0))
-        levelThreeComplete = 1
+    if (menuSelect == 1) {
+        if (levelOneComplete == 1) {
+            levelTwo()
+        }
+        if (levelTwoComplete == 1) {
+            levelThree()
+        }
+    } else if (menuSelect == 2) {
+        if (levelSelector == 1) {
+            tiles.placeOnTile(enemyTemplate, tiles.getTileLocation(0, 0))
+            tiles.placeOnTile(enemy1, tiles.getTileLocation(0, 0))
+            tiles.placeOnTile(enemy2, tiles.getTileLocation(0, 0))
+            levelOneComplete = 1
+        } else if (levelSelector == 2) {
+            tiles.placeOnTile(enemyTemplate, tiles.getTileLocation(0, 0))
+            tiles.placeOnTile(enemy1, tiles.getTileLocation(0, 0))
+            tiles.placeOnTile(enemy2, tiles.getTileLocation(0, 0))
+            levelTwoComplete = 1
+        } else if (levelSelector == 3) {
+            tiles.placeOnTile(enemyTemplate, tiles.getTileLocation(0, 0))
+            tiles.placeOnTile(enemy1, tiles.getTileLocation(0, 0))
+            tiles.placeOnTile(enemy2, tiles.getTileLocation(0, 0))
+            levelThreeComplete = 1
+        }
+        tiles.setTilemap(tilemap`hubWorld`)
+        hubWorld()
+        tiles.placeOnTile(thePlayer, tiles.getTileLocation(4, 13))
     }
     healthReward()
-    tiles.setTilemap(tilemap`hubWorld`)
-    hubWorld()
-    tiles.placeOnTile(thePlayer, tiles.getTileLocation(4, 13))
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile7`, function (sprite, location) {
     transitionSmooth()
@@ -280,6 +349,9 @@ function levelOne () {
     tiles.setTilemap(tilemap`level2`)
     tiles.placeOnTile(thePlayer, tiles.getTileLocation(1, 10))
     tiles.placeOnTile(transitionWall, tiles.getTileLocation(5, 9))
+    if (enemySpawns == 0) {
+        enemySpawn()
+    }
     tiles.placeOnTile(enemyTemplate, tiles.getTileLocation(48, 8))
     tiles.placeOnTile(enemy1, tiles.getTileLocation(23, 10))
     tiles.placeOnTile(enemy2, tiles.getTileLocation(22, 3))
@@ -292,6 +364,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile3`, function (sprite, l
     levelOne()
 })
 function initializeGame () {
+    hubWorld()
     thePlayer = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . f f f f f f f f f . . 
@@ -310,7 +383,6 @@ function initializeGame () {
         . . . f f f f . f f f f f . . . 
         . . . f f f f . f f f f f . . . 
         `, SpriteKind.Player)
-    hubWorld()
     controller.moveSprite(thePlayer, 80, 0)
     scene.cameraFollowSprite(thePlayer)
     transitionWall = sprites.create(img`
@@ -543,7 +615,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile17`, function (sprite, 
 })
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     if (menuScreen == 1) {
-        menuSelect += -1
+        menuSelect += 1
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile5`, function (sprite, location) {
@@ -581,6 +653,7 @@ function healthReward () {
 function menuScreen2 () {
     menuScreen = 1
     menuSelect = 1
+    menuConfirm = 0
     optionOne = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -635,6 +708,9 @@ function menuScreen2 () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `, SpriteKind.Player)
+    optionOne.setPosition(scene.screenWidth() / 2, 70)
+    optionTwo.setPosition(scene.screenWidth() / 2, 80)
+    optionThree.setPosition(scene.screenWidth() / 2, 100)
 }
 function gameWin () {
     if (levelOneComplete == 1) {
@@ -819,6 +895,9 @@ function hubWorld () {
         ddedddddddddeddedddeddddeddeddddddddddeddddddddedddddddeddedddddddddddddddddddddddddddddeddddeddddeddddddddddeddeddddddddddddeddddddddddddedddddedddddddddeddddd
         `)
     levelSelector = 0
+    if (enemySpawns == 0) {
+        enemySpawn()
+    }
     tiles.placeOnTile(enemyTemplate, tiles.getTileLocation(0, 0))
     tiles.placeOnTile(enemy1, tiles.getTileLocation(0, 0))
     tiles.placeOnTile(enemy2, tiles.getTileLocation(0, 0))
@@ -921,6 +1000,9 @@ function levelTwo () {
     tiles.placeOnTile(thePlayer, tiles.getTileLocation(13, 37))
     tiles.placeOnTile(transitionWall, tiles.getTileLocation(12, 35))
     tiles.placeOnTile(endingCar, tiles.getTileLocation(79, 33))
+    if (enemySpawns == 0) {
+        enemySpawn()
+    }
     tiles.placeOnTile(enemyTemplate, tiles.getTileLocation(31, 26))
     tiles.placeOnTile(enemy1, tiles.getTileLocation(64, 31))
     tiles.placeOnTile(enemy2, tiles.getTileLocation(27, 32))
@@ -963,6 +1045,7 @@ let optionOne: Sprite = null
 let completionThree: Sprite = null
 let completionTwo: Sprite = null
 let completionOne: Sprite = null
+let menuConfirm = 0
 let transitionState = 0
 let menuSelect = 0
 let menuScreen = 0
@@ -971,10 +1054,11 @@ let enemy1: Sprite = null
 let enemyTemplate: Sprite = null
 let endingCar: Sprite = null
 let transitionWall: Sprite = null
-let thePlayer: Sprite = null
 let chest: Sprite = null
 let chestOpen = 0
 let levelSelector = 0
+let thePlayer: Sprite = null
+let enemySpawns = 0
 let levelThreeComplete = 0
 let levelTwoComplete = 0
 let levelOneComplete = 0
@@ -984,6 +1068,7 @@ jumpCounter = 0
 levelOneComplete = 0
 levelTwoComplete = 0
 levelThreeComplete = 0
+enemySpawns = 0
 scene.setBackgroundImage(img`
     cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
     cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -1108,27 +1193,151 @@ scene.setBackgroundImage(img`
     `)
 game.showLongText("Try to reach the escape van at the end of each level!", DialogLayout.Bottom)
 game.showLongText("Stomp on enemies and open chests for poirnts", DialogLayout.Bottom)
+thePlayer = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . f f f f f f f f f . . 
+    . . . . . f f f f f f f f f . . 
+    . . . . . f f f f f f f f f . . 
+    . . . . f f f 1 1 1 1 1 1 1 f . 
+    . . . . f f f 1 1 1 1 1 1 1 f . 
+    . . . . f f f 1 1 1 f 1 1 1 f . 
+    . . . . f f f f f f f f f f f . 
+    . . . . . f f 1 1 1 1 f f f . . 
+    . . . . . f f 1 1 1 1 f f f . . 
+    . . . . . 1 1 f f 1 . . . . . . 
+    . . f f f 1 1 1 1 1 . f f f f . 
+    . . f f f 1 1 1 1 1 . f f f f . 
+    . . . . . 1 1 1 1 1 . . . . . . 
+    . . . f f f f . f f f f f . . . 
+    . . . f f f f . f f f f f . . . 
+    `, SpriteKind.Player)
+thePlayer.setImage(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `)
 menuScreen2()
 game.onUpdate(function () {
     if (menuScreen == 1) {
-        if (menuSelect < 1) {
-            menuSelect = 1
+        if (menuConfirm == 0) {
+            if (menuSelect < 1) {
+                menuSelect = 1
+            }
+            if (menuSelect > 3) {
+                menuSelect = 3
+            }
+            if (menuSelect == 1) {
+                optionOne.setImage(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . 5 . . . . . . . . 
+                    . . . . . . . 5 . . . . . . . . 
+                    . . . . . . . 5 . . . . . . . . 
+                    . . . . . . . 5 . . . . . . . . 
+                    . . . . . . . 5 . . . . . . . . 
+                    . . . . . . . 5 . . . . . . . . 
+                    . . . . . . . 5 . . . . . . . . 
+                    . . . . . . . 5 . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `)
+                optionTwo.setImage(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . 1 1 1 1 . . . . . . . 
+                    . . . 1 1 . . . . 1 1 . . . . . 
+                    . . . 1 . . . . . . . 1 . . . . 
+                    . . . . . . . . . . . . 1 . . . 
+                    . . . . . . . . . . . . 1 . . . 
+                    . . . . . . . . . . . . 1 . . . 
+                    . . . . . . . . . . . 1 . . . . 
+                    . . . . . . . . . . 1 . . . . . 
+                    . . . . . . . . . . 1 . . . . . 
+                    . . . . . . . . . 1 . . . . . . 
+                    . . . . . . . . 1 . . . . . . . 
+                    . . . . . . 1 1 . . . . . . . . 
+                    . . . . . 1 1 . . . . . . . . . 
+                    . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+                    `)
+            }
+            if (menuSelect == 2) {
+                optionOne.setImage(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . 1 . . . . . . . . 
+                    . . . . . . . 1 . . . . . . . . 
+                    . . . . . . . 1 . . . . . . . . 
+                    . . . . . . . 1 . . . . . . . . 
+                    . . . . . . . 1 . . . . . . . . 
+                    . . . . . . . 1 . . . . . . . . 
+                    . . . . . . . 1 . . . . . . . . 
+                    . . . . . . . 1 . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    `)
+                optionTwo.setImage(img`
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . 5 5 5 5 . . . . . . . 
+                    . . . 5 5 . . . . 5 5 . . . . . 
+                    . . . 5 . . . . . . . 5 . . . . 
+                    . . . . . . . . . . . . 5 . . . 
+                    . . . . . . . . . . . . 5 . . . 
+                    . . . . . . . . . . . . 5 . . . 
+                    . . . . . . . . . . . 5 . . . . 
+                    . . . . . . . . . . 5 . . . . . 
+                    . . . . . . . . . . 5 . . . . . 
+                    . . . . . . . . . 5 . . . . . . 
+                    . . . . . . . . 5 . . . . . . . 
+                    . . . . . . 5 5 . . . . . . . . 
+                    . . . . . 5 5 . . . . . . . . . 
+                    . . 5 5 5 5 5 5 5 5 5 5 5 5 . . 
+                    `)
+            }
         }
-        if (menuSelect > 3) {
-            menuSelect = 3
-        }
-        if (menuSelect == 1) {
-            menuSelect = 3
-            initializeGame()
-            levelOne()
-        }
-        if (menuSelect == 2) {
-            menuSelect = 3
-            initializeGame()
-            hubWorld()
-        }
-        if (menuSelect == 3) {
-        	
+        if (menuConfirm == 1) {
+            if (menuSelect == 1) {
+                menuScreen = 0
+                initializeGame()
+                levelOne()
+                optionOne.destroy()
+                optionTwo.destroy()
+                optionThree.destroy()
+            }
+            if (menuSelect == 2) {
+                menuSelect = 0
+                initializeGame()
+                hubWorld()
+                optionOne.destroy()
+                optionTwo.destroy()
+                optionThree.destroy()
+            }
+            if (menuSelect == 3) {
+                optionOne.destroy()
+                optionTwo.destroy()
+                optionThree.destroy()
+            }
         }
     }
     if (menuScreen == 0) {
@@ -1137,11 +1346,8 @@ game.onUpdate(function () {
         }
     }
 })
-game.onUpdate(function () {
-	
-})
 forever(function () {
     gravityOnWorld()
-    console.log(jumpCounter)
+    console.log(levelSelector)
     gameWin()
 })
